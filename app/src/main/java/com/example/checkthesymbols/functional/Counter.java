@@ -1,6 +1,8 @@
 package com.example.checkthesymbols.functional;
 
 
+import com.example.checkthesymbols.controller.Validating;
+
 import java.util.ArrayList;
 
 public class Counter {
@@ -16,12 +18,10 @@ public class Counter {
 
         for (int count = 0; count < symbol.size(); count++) {
 
-
             for (char s : textInChar) {
 
                 if (s == symbol.get(count) && s != '.') {//за посчет точек и многоточий отвечает метод getNumberPoint(text) и getNumberEllipsis(text)
                     res++;
-
                 }
             }
         }
@@ -39,7 +39,6 @@ public class Counter {
 
        for (int i = 0; i < Text.length-1; i++) {
             if (Text[i] == ' ' && Text[i + 1] != ' ' || i == 1 && Text[i] != ' ') {
-
                 res++;
             }
         }
@@ -52,20 +51,18 @@ public class Counter {
     private int getNumberEllipsis(String text) {
         char[] Text = text.toCharArray();
         int res = 0;
-        boolean check = Verification.checkEllipsis;
+        boolean check = Validating.checkEllipsis;
 
         if (check) {
             for (int i = 0; i < Text.length - 1; i++) {
 
                 try {
                     if (Text[i] == '.' && Text[i + 1] == '.' && Text[i + 2] == '.') {
-
                         res++;
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
                     break;
                 }
-
             }
         }
 
@@ -78,21 +75,14 @@ public class Counter {
     private int getNumberPoint(String text) {
         char[] Text = text.toCharArray();
         int res = 0;
-        boolean check = Verification.checkPoint;
-
-
-
+        boolean check = Validating.checkPoint;
         if (check) {
-
             for (int i = 0; i < Text.length; i++) {
-
                 try {
-
                     if (Text[i - 1] != '.' && Text[i] == '.' && i == Text.length - 1 || Text[i] == '.' && Text[i - 1] != '.' && Text[i + 1] != '.') {
 
                         res++;
                     }
-
                 } catch (ArrayIndexOutOfBoundsException ignored) {
                 }
 

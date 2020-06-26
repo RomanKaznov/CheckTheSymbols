@@ -1,6 +1,6 @@
 package com.example.checkthesymbols.functional;
 
-import android.widget.TableRow;
+import com.example.checkthesymbols.controller.Validating;
 
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class CounterTest {
     @Test
     public void whenGetNumberPoint() {
 
-        Verification.checkPoint = true;
+        Validating.checkPoint = true;
 
         ArrayList<Character> testSymbol = new ArrayList<>();
         testSymbol.add('.');
@@ -45,7 +45,7 @@ public class CounterTest {
     @Test
     public void whenGetNumberEllipsis() {
 
-        Verification.checkEllipsis = true;
+        Validating.checkEllipsis = true;
 
         ArrayList<Character> testSymbol = new ArrayList<>();
         testSymbol.add('.');

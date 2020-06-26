@@ -1,12 +1,10 @@
-package com.example.checkthesymbols.Controler;
+package com.example.checkthesymbols.controller;
 
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
-
-import com.example.checkthesymbols.functional.Verification;
 
 
 public class OnSwipeListener implements View.OnTouchListener {
@@ -54,7 +52,7 @@ public class OnSwipeListener implements View.OnTouchListener {
                 if (Math.abs(deltaY) > 10) { //дистанция не меньше минимальной
 
                     // вниз
-                    if (deltaY < 0 && !Verification.navigation_down) {
+                    if (deltaY < 0 && !Validating.navigation_down) {
                         Log.i("m", "up");
                         navigation.startAnimation(animationDown);
 
@@ -63,7 +61,7 @@ public class OnSwipeListener implements View.OnTouchListener {
                     }
 
                     // вверх
-                    if (deltaY > 0 && !Verification.navigation_up) {
+                    if (deltaY > 0 && !Validating.navigation_up) {
                         navigation.startAnimation(animationUp);
                         Log.i("m", "down");
 

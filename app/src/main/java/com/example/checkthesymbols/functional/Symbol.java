@@ -11,11 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.checkthesymbols.controller.Validating;
 import com.example.checkthesymbols.R;
 
-import java.util.ArrayList;
-
-public class addSymbol extends AppCompatActivity implements View.OnClickListener {
+public class Symbol extends AppCompatActivity implements View.OnClickListener {
     String symbol;
     EditText input;
     Button add, symExcl, symQuestion, symPoint, symEllipsis, symQuotation, symSemicolon, symColon, symDog, symBrackets, symBrace,symDash,symSlash;
@@ -87,14 +86,14 @@ public class addSymbol extends AppCompatActivity implements View.OnClickListener
                 input.setFilters(filterArray);
                 input.setText("Точки");
                 symbol = ".";
-                Verification.checkPoint = true;
+                Validating.checkPoint = true;
                 break;
             case R.id.symEllipsis:
                 filterArray[0] = new InputFilter.LengthFilter(30);
                 input.setFilters(filterArray);
                 input.setText("Многоточия");
                 symbol = "...";
-                Verification.checkEllipsis = true;
+                Validating.checkEllipsis = true;
                 break;
             case R.id.symQuotation:
                 filterArray[0] = new InputFilter.LengthFilter(30);
@@ -147,14 +146,14 @@ public class addSymbol extends AppCompatActivity implements View.OnClickListener
                 break;
             case R.id.add:
 
-                if (Verification.checkInput) {
+                if (Validating.checkInput) {
 
                     symbol = String.valueOf(input.getText());
-                    Verification.checkInput = false;
+                    Validating.checkInput = false;
 
                 }
 
-                if (symbol != null && !symbol.equals("")) {
+                if (symbol != null) {
 
                     if (!symbol.equals("")) {
                         Intent intent = new Intent();
@@ -170,11 +169,10 @@ public class addSymbol extends AppCompatActivity implements View.OnClickListener
                     input.setFilters(filterArray);
                     input.setText("Выберите символ");
                     break;
-
                 }
             case R.id.input:
                 input.setText("");
-                Verification.checkInput = true;
+                Validating.checkInput = true;
                 filterArray[0] = new InputFilter.LengthFilter(1);
                 input.setFilters(filterArray);
                 break;

@@ -17,7 +17,7 @@
         <ImageView
             android:src="@mipmap/search"
             android:layout_marginTop="10dp"
-            android:id="@+id/checkSym"
+            android:id="@+id/search"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:textSize="24sp">

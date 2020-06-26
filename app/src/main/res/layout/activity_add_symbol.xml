@@ -7,7 +7,7 @@
     android:background="@color/colorBack2"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".functional.addSymbol">
+    tools:context=".functional.Symbol">
 
     <LinearLayout
         android:layout_width="match_parent"

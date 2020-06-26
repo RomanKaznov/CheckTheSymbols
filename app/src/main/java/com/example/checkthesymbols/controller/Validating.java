@@ -1,17 +1,16 @@
-package com.example.checkthesymbols.functional;
+package com.example.checkthesymbols.controller;
 
 import java.util.ArrayList;
 
-public class Verification {
+public class Validating {
 
     public static boolean checkPoint = false;
     public static boolean checkEllipsis = false;
-    static boolean checkInput = false;
+    public static boolean checkInput = false;
     public static boolean navigation_down = false;
     public static boolean navigation_up = false;
 
-
-
+    //проверка на повторяющие символы
     public boolean RepeatSymbol(ArrayList<String> arr, String symbol) {
         boolean check = true;
         for (int i = 0; i < arr.size(); i++) {

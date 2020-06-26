@@ -19,10 +19,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.checkthesymbols.functional.Counter;
-import com.example.checkthesymbols.Controler.controlItem;
-import com.example.checkthesymbols.Controler.OnSwipeListener;
-import com.example.checkthesymbols.functional.Verification;
-import com.example.checkthesymbols.functional.addSymbol;
+import com.example.checkthesymbols.controller.SymbolDeletion;
+import com.example.checkthesymbols.controller.OnSwipeListener;
+import com.example.checkthesymbols.controller.Validating;
+import com.example.checkthesymbols.functional.Symbol;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button addSym;
 
-
     LinearLayout collectionSym, navigationTitle, output, navigation;
 
     EditText inputText;
@@ -39,9 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView numberChars, countWord, countExSym, defaultSymSpace;
     ImageView checkSym;
 
-    addSymbol addSymbol;
+    Symbol Symbol;
 
-    controlItem elements;
+    SymbolDeletion elements;
 
     Animation animationDown;
     Animation animationUp;
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     HorizontalScrollView items;
 
     Counter counter;
-    Verification verification;
+    Validating validating;
 
     //попадают повторяющие символы
     ArrayList<String> RepeatSymbol;
@@ -67,8 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
-        checkSym = findViewById(R.id.checkSym);
+        checkSym = findViewById(R.id.search);
         addSym = findViewById(R.id.addSym);
 
         countWord = findViewById(R.id.countWord);
@@ -93,14 +91,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SelectedSymbol.add(' ');
         //
 
-        addSymbol = new addSymbol();
-        elements = new controlItem();
+        Symbol = new Symbol();
+        elements = new SymbolDeletion();
         OnSwipeListener swipeTouchListener = new OnSwipeListener();
         //Класс который отвечает за подсчет символов
         counter = new Counter();
         //
         //Класс отвечает за проверку состояний
-        verification = new Verification();
+        validating = new Validating();
         //
 
         navigationTitle.setOnClickListener(this);
@@ -119,8 +117,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAnimationStart(Animation animation) {
                 //поля отвечают за проверку состояний navigation: up/down
-                Verification.navigation_down = true;
-                Verification.navigation_up = false;
+                Validating.navigation_down = true;
+                Validating.navigation_up = false;
                 //
 
                 items.setVisibility(View.GONE);
@@ -131,11 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAnimationEnd(Animation animation) {
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) navigation.getLayoutParams();
-
                 lp.topMargin = output.getHeight() / 2;
-
                 navigation.setLayoutParams(lp);
-
             }
 
             @Override
@@ -148,16 +143,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         animationUp.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                Verification.navigation_down = false;
-                Verification.navigation_up = true;
+                Validating.navigation_down = false;
+                Validating.navigation_up = true;
 
                 items.setVisibility(View.VISIBLE);
                 addSym.setVisibility(View.VISIBLE);
-
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) navigation.getLayoutParams();
 
                 lp.topMargin = 0;
-
                 navigation.setLayoutParams(lp);
 
             }
@@ -179,10 +172,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.checkSym:
+            case R.id.search:
 
                 //проверка состоя
-                if (!Verification.navigation_down) {
+                if (!Validating.navigation_down) {
                     navigation.startAnimation(animationDown);
 
                 }
@@ -203,16 +196,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.navigationTitle:
-
-                if (!Verification.navigation_down) {
+                if (!Validating.navigation_down) {
                     navigation.startAnimation(animationDown);
 
                 }
-
                 break;
             case R.id.addSym:
                 //запуск активити, которое вернет символ выбранный пользователем
-                Intent intent = new Intent(this, addSymbol.class);
+                Intent intent = new Intent(this, Symbol.class);
                 startActivityForResult(intent, 1);
                 //
                 break;
@@ -232,17 +223,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //проверка на повторяющие символы
-        boolean checkRepeat = verification.RepeatSymbol(RepeatSymbol, symbol);
+        boolean checkRepeat = validating.RepeatSymbol(RepeatSymbol, symbol);
         //
 
         if (checkRepeat && symbol != null) {
             RepeatSymbol.add(symbol);
-            SelectedSymbol.addAll(verification.getArrSymbol(symbol));
+            SelectedSymbol.addAll(validating.getArrSymbol(symbol));
             ContextThemeWrapper newContext = new ContextThemeWrapper(this, R.style.item);
             TextView textView1 = new TextView(newContext);
             //вывод первоначальных значений
             collectionSym.addView(elements.setParamsItem(textView1, symbol));
-            elements.setDeleter(collectionSym, elements.setParamsItem(textView1, symbol), SelectedSymbol, RepeatSymbol);
+            elements.setDeletion(collectionSym, elements.setParamsItem(textView1, symbol), SelectedSymbol, RepeatSymbol);
 
         }
     }
