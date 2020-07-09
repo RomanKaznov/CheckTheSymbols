@@ -1,4 +1,4 @@
-package com.example.checkthesymbols.functional;
+package com.example.checkthesymbols.symbol_functional;
 
 import com.example.checkthesymbols.controller.Validating;
 

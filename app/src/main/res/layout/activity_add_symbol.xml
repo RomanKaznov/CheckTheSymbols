@@ -7,26 +7,27 @@
     android:background="@color/colorBack2"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".functional.Symbol">
+    tools:context=".symbol_functional.Symbol">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
         android:gravity="center"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
         <EditText
             android:id="@+id/input"
-            android:layout_width="250dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/shape"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
             android:clickable="true"
             android:focusableInTouchMode="true"
-            android:gravity="center"
             android:inputType="textCapCharacters"
-            android:textColor="@color/colorBack1">
+            android:textColor="@color/colorBack1"
+            android:background="@drawable/shape"
+            android:focusable="true">
         </EditText>
         <Button
             android:id="@+id/add"
@@ -39,147 +40,112 @@
             android:textSize="30sp">
         </Button>
 
-
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:layout_weight="3"
+        android:layout_weight="2"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp">
+            style="@style/container_symbol"
+            >
 
             <Button
                 android:id="@+id/symExcl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/gradient"
+                style="@style/symbol"
                 android:text="!">
             </Button>
 
             <Button
                 android:id="@+id/symQuestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/gradient"
+                style="@style/symbol"
                 android:text=" ?">
             </Button>
 
             <Button
                 android:id="@+id/symPoint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/gradient"
+                style="@style/symbol"
                 android:text=".">
             </Button>
+
         </LinearLayout>
 
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
+            style="@style/container_symbol"
+            >
 
             <Button
                 android:id="@+id/symEllipsis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/gradient"
+                style="@style/symbol"
                 android:text="...">
             </Button>
 
             <Button
                 android:id="@+id/symQuotation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/gradient"
+                style="@style/symbol"
                 android:text="'' ''">
             </Button>
 
             <Button
                 android:id="@+id/symSemicolon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                style="@style/symbol"
                 android:background="@drawable/gradient"
                 android:text=";">
             </Button>
         </LinearLayout>
 
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
+            style="@style/container_symbol">
 
             <Button
                 android:id="@+id/symColon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/gradient"
+                style="@style/symbol"
                 android:text=":">
             </Button>
 
             <Button
                 android:id="@+id/symDog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/gradient"
+                style="@style/symbol"
                 android:text=" @">
             </Button>
 
             <Button
                 android:id="@+id/symBrackets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-
-                android:background="@drawable/gradient"
+                style="@style/symbol"
                 android:text="()">
             </Button>
         </LinearLayout>
 
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
+            style="@style/container_symbol"
+            >
 
             <Button
                 android:id="@+id/symBrace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:background="@drawable/gradient"
+                style="@style/symbol"
                 android:text="{}">
             </Button>
 
 
             <Button
                 android:id="@+id/symDash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                style="@style/symbol"
                 android:background="@drawable/gradient"
                 android:text="-">
             </Button>
 
             <Button
                 android:id="@+id/symSlash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/gradient"
+                style="@style/symbol"
                 android:text="/">
             </Button>
         </LinearLayout>

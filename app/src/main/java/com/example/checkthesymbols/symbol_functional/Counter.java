@@ -1,4 +1,4 @@
-package com.example.checkthesymbols.functional;
+package com.example.checkthesymbols.symbol_functional;
 
 
 import com.example.checkthesymbols.controller.Validating;
@@ -6,8 +6,6 @@ import com.example.checkthesymbols.controller.Validating;
 import java.util.ArrayList;
 
 public class Counter {
-
-
 
 
     //метод вернет общее количество исключенных символов
@@ -28,9 +26,8 @@ public class Counter {
 
         int x = getNumberPoint(text) + getNumberEllipsis(text);
         return res + x;
-
     }
-//
+
 
     //метод возвращает количество слов
     public int getNumberWords(String text) {
@@ -43,10 +40,9 @@ public class Counter {
             }
         }
 
-
         return res;
     }
-//
+
 // метод возвращает количество многоточий
     private int getNumberEllipsis(String text) {
         char[] Text = text.toCharArray();
@@ -65,25 +61,25 @@ public class Counter {
                 }
             }
         }
-
         return res  * 3 ;
     }
-//
+
 
 
     //метод возвращает количество точек
-    private int getNumberPoint(String text) {
-        char[] Text = text.toCharArray();
+    private int getNumberPoint(String str) {
+        char[] text = str.toCharArray();
         int res = 0;
         boolean check = Validating.checkPoint;
         if (check) {
-            for (int i = 0; i < Text.length; i++) {
+            for (int i = 0; i < text.length; i++) {
                 try {
-                    if (Text[i - 1] != '.' && Text[i] == '.' && i == Text.length - 1 || Text[i] == '.' && Text[i - 1] != '.' && Text[i + 1] != '.') {
+                    if (text[i - 1] != '.' && text[i] == '.' && i == text.length - 1 || text[i] == '.' && text[i - 1] != '.' && text[i + 1] != '.') {
 
                         res++;
                     }
                 } catch (ArrayIndexOutOfBoundsException ignored) {
+
                 }
 
             }

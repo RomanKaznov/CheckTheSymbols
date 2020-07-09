@@ -1,4 +1,4 @@
-package com.example.checkthesymbols.functional;
+package com.example.checkthesymbols.symbol_functional;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,8 +8,11 @@ import android.os.Bundle;
 
 import android.text.InputFilter;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.checkthesymbols.controller.Validating;
 import com.example.checkthesymbols.R;
@@ -65,6 +68,7 @@ public class Symbol extends AppCompatActivity implements View.OnClickListener {
 
     }
 
+    //при выборе символа,обновим editText
     @Override
     public void onClick(View view) {
 
@@ -131,7 +135,6 @@ public class Symbol extends AppCompatActivity implements View.OnClickListener {
                 input.setText("Скобки");
                 symbol = "()";
                 break;
-
             case R.id.symDash:
                 filterArray[0] = new InputFilter.LengthFilter(30);
                 input.setFilters(filterArray);
@@ -145,12 +148,9 @@ public class Symbol extends AppCompatActivity implements View.OnClickListener {
                 symbol = "/";
                 break;
             case R.id.add:
-
                 if (Validating.checkInput) {
-
                     symbol = String.valueOf(input.getText());
                     Validating.checkInput = false;
-
                 }
 
                 if (symbol != null) {
@@ -179,6 +179,18 @@ public class Symbol extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    //присвоение дополнительных параметров для TextView
+    public TextView setParamsItem(TextView textView, String text) {
+        if (text.equals(" ")) {
+            text = "Space";
+        }
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.leftMargin = 15;
+        textView.setLayoutParams(layoutParams);
+        textView.setText(text);
+        return textView;
+    }
+    //
 
 
 

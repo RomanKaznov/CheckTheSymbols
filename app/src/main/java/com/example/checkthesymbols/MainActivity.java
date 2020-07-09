@@ -10,7 +10,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,11 +17,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.checkthesymbols.functional.Counter;
+import com.example.checkthesymbols.symbol_functional.Counter;
 import com.example.checkthesymbols.controller.SymbolDeletion;
-import com.example.checkthesymbols.controller.OnSwipeListener;
 import com.example.checkthesymbols.controller.Validating;
-import com.example.checkthesymbols.functional.Symbol;
+import com.example.checkthesymbols.symbol_functional.Symbol;
 
 import java.util.ArrayList;
 
@@ -31,16 +29,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button addSym;
 
-    LinearLayout collectionSym, navigationTitle, output, navigation;
+    LinearLayout navBarSymbols, navigationTitle, outputResult, navBarLayout;
 
     EditText inputText;
 
-    TextView numberChars, countWord, countExSym, defaultSymSpace;
+    TextView numberChars, numberWord, numberExSym, defaultSymSpace;
     ImageView checkSym;
 
-    Symbol Symbol;
+    Symbol symbol;
 
-    SymbolDeletion elements;
+    SymbolDeletion symbolDeletion;
 
     Animation animationDown;
     Animation animationUp;
@@ -50,13 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Counter counter;
     Validating validating;
 
-    //попадают повторяющие символы
-    ArrayList<String> RepeatSymbol;
-    //
+    ArrayList<String> repeatingCharacters;
+    ArrayList<Character> selectedSymbol;
 
-    //попадают выбранные символы
-    ArrayList<Character> SelectedSymbol;
-    //
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -69,34 +63,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkSym = findViewById(R.id.search);
         addSym = findViewById(R.id.addSym);
 
-        countWord = findViewById(R.id.countWord);
-        countExSym = findViewById(R.id.countExSym);
+        numberWord = findViewById(R.id.numberWords);
+        numberExSym = findViewById(R.id.numberExSym);
         defaultSymSpace = findViewById(R.id.Space);
         numberChars = findViewById(R.id.numberChars);
 
 
         inputText = findViewById(R.id.input);
 
-        navigation = findViewById(R.id.constraintLayout);
+        navBarLayout = findViewById(R.id.navBarLayout);
         navigationTitle = findViewById(R.id.navigationTitle);
-        collectionSym = findViewById(R.id.colectionSyb);
-        output = findViewById(R.id.linearLayout);
+        navBarSymbols = findViewById(R.id.symbolsLayout);
+        outputResult = findViewById(R.id.outputResLayout);
 
         items = findViewById(R.id.items);
 
-
-        SelectedSymbol = new ArrayList<>();
-        RepeatSymbol = new ArrayList<>();
-        //По умолчаанию добавляется пробел
-        SelectedSymbol.add(' ');
+        selectedSymbol = new ArrayList<>(); //повторяющиеся символы
+        repeatingCharacters = new ArrayList<>();//выбранные символы
+        //По умолчанию добавляется пробел
+        selectedSymbol.add(' ');
         //
 
-        Symbol = new Symbol();
-        elements = new SymbolDeletion();
-        OnSwipeListener swipeTouchListener = new OnSwipeListener();
-        //Класс который отвечает за подсчет символов
+        symbol = new Symbol();
+        symbolDeletion = new SymbolDeletion();
+        NavBarAnim navBarAnim = new NavBarAnim(navBarLayout, navigationTitle);//класс отвечающий за работу анимации
+        navBarAnim.setAnimationStart(animationDown, animationUp);
+        //Класс отвечает за подсчет символов
         counter = new Counter();
-        //
         //Класс отвечает за проверку состояний
         validating = new Validating();
         //
@@ -105,67 +98,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkSym.setOnClickListener(this);
         addSym.setOnClickListener(this);
 
-
         animationDown = AnimationUtils.loadAnimation(this, R.anim.down_navigation);
         animationUp = AnimationUtils.loadAnimation(this, R.anim.up_navigation);
 
-
-        swipeTouchListener.setSwipeListener(navigation, navigationTitle, animationDown, animationUp);
-
-
-        animationDown.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                //поля отвечают за проверку состояний navigation: up/down
-                Validating.navigation_down = true;
-                Validating.navigation_up = false;
-                //
-
-                items.setVisibility(View.GONE);
-                addSym.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) navigation.getLayoutParams();
-                lp.topMargin = output.getHeight() / 2;
-                navigation.setLayoutParams(lp);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-
-        animationUp.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                Validating.navigation_down = false;
-                Validating.navigation_up = true;
-
-                items.setVisibility(View.VISIBLE);
-                addSym.setVisibility(View.VISIBLE);
-                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) navigation.getLayoutParams();
-
-                lp.topMargin = 0;
-                navigation.setLayoutParams(lp);
-
-            }
-
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
     }
 
 
@@ -173,41 +108,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search:
-
-                //проверка состоя
+                //проверка состояния
                 if (!Validating.navigation_down) {
-                    navigation.startAnimation(animationDown);
-
+                    navBarLayout.startAnimation(animationDown);
                 }
-                //
-
-
                 //метод вернет количество исключенных символов
-                int numberSymInText = counter.getNumberExSymbol(String.valueOf(inputText.getText()), SelectedSymbol);
-                //
-
+                int numberSymInText = counter.getNumberExSymbol(String.valueOf(inputText.getText()), selectedSymbol);
                 //Вычетаем из общего количества символов исключенные
                 numberChars.setText(getString(R.string.symbol_in_text) + " " + String.valueOf(inputText.length() - numberSymInText));
-                countWord.setText(getString(R.string.word_in_text) + " " + String.valueOf(counter.getNumberWords(String.valueOf(inputText.getText()))));
-                countExSym.setText(getString(R.string.ex_in_symbol) + " " + String.valueOf(numberSymInText));
-                //
-
-
-                break;
-
-            case R.id.navigationTitle:
-                if (!Validating.navigation_down) {
-                    navigation.startAnimation(animationDown);
-
-                }
+                numberWord.setText(getString(R.string.word_in_text) + " " + String.valueOf(counter.getNumberWords(String.valueOf(inputText.getText()))));
+                numberExSym.setText(getString(R.string.ex_in_symbol) + " " + String.valueOf(numberSymInText));
                 break;
             case R.id.addSym:
-                //запуск активити, которое вернет символ выбранный пользователем
+                //запуск активити, которое вернет символ, выбранный пользователем
                 Intent intent = new Intent(this, Symbol.class);
                 startActivityForResult(intent, 1);
-                //
                 break;
-
         }
 
     }
@@ -218,23 +134,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-
         String symbol = data.getStringExtra("text");
-
-
-        //проверка на повторяющие символы
-        boolean checkRepeat = validating.RepeatSymbol(RepeatSymbol, symbol);
-        //
+        boolean checkRepeat = validating.RepeatSymbol(repeatingCharacters, symbol);  //проверка на повторяющиеся символы
 
         if (checkRepeat && symbol != null) {
-            RepeatSymbol.add(symbol);
-            SelectedSymbol.addAll(validating.getArrSymbol(symbol));
-            ContextThemeWrapper newContext = new ContextThemeWrapper(this, R.style.item);
+            repeatingCharacters.add(symbol);
+            selectedSymbol.addAll(validating.getArrSymbol(symbol));
+            ContextThemeWrapper newContext = new ContextThemeWrapper(this, R.style.item_navbar);
             TextView textView1 = new TextView(newContext);
             //вывод первоначальных значений
-            collectionSym.addView(elements.setParamsItem(textView1, symbol));
-            elements.setDeletion(collectionSym, elements.setParamsItem(textView1, symbol), SelectedSymbol, RepeatSymbol);
-
+            navBarSymbols.addView(this.symbol.setParamsItem(textView1, symbol));
+            symbolDeletion.setDeletion(navBarSymbols, this.symbol.setParamsItem(textView1, symbol), selectedSymbol, repeatingCharacters);
         }
     }
 
